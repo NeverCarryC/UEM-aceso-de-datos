@@ -2,6 +2,8 @@ package Clase1;
 
 public class Entrada {
     public static void main(String[] args) {
-        System.out.println("test");
+
+        GestionFicheros gestionFicheros = new GestionFicheros();
+        gestionFicheros.trabajoFicherosBase();
     }
 }
