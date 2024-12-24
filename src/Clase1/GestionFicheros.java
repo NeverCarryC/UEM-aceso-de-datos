@@ -60,7 +60,41 @@ public class GestionFicheros {
         }
     }
 
-    public static void main(String[] args) {
 
+    public static void recursiveFile(File dir) {
+        // 检查参数是否为 null
+        if (dir == null) {
+            System.out.println("Directory is null.");
+            return;
+        }
+
+        // 检查是否是有效的目录
+        if (dir.isDirectory()) {
+            File[] files = dir.listFiles(); // 获取子文件和子目录
+
+            // 检查 listFiles() 返回值是否为 null
+            if (files == null) {
+                System.out.println("Cannot access directory: " + dir.getAbsolutePath());
+                return;
+            }
+
+            // 遍历子文件和子目录
+            for (File item : files) {
+                if (item.isFile()) {
+                    System.out.println("File: " + item.getName());
+                } else if (item.isDirectory()) {
+                    System.out.println("Directory: " + item.getName());
+                    recursiveFile(item); // 递归处理
+                }
+            }
+        } else {
+            System.out.println(dir.getAbsolutePath() + " is not a directory.");
+        }
+    }
+
+
+    public static void main(String[] args) {
+        File rootDir = new File("C:\\Users\\cobo\\Documents");
+        recursiveFile(rootDir);
     }
 }
