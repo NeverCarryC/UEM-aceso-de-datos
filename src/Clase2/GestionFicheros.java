@@ -1,7 +1,6 @@
 package Clase2;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Objects;
 
 public class GestionFicheros {
@@ -94,7 +93,71 @@ public class GestionFicheros {
 
 
     public static void main(String[] args) {
-        File rootDir = new File("C:\\Users\\cobo\\Documents");
-        recursiveFile(rootDir);
+        Clase2.GestionFicheros gestionFicheros = new GestionFicheros();
+        // gestionFicheros.flujoEscrituraConFileWtriter("src/Clase2/recources/escritura.txt");
+        // gestionFicheros.flujoEscrituraConBufferedWriter("src/Clase2/recources/escritura.txt");
+        gestionFicheros.flujoEscrituraConPrintWriter("src/Clase2/recources/escritura.txt");
+    }
+
+    public void flujoEscrituraConFileWtriter(String path){
+        // FIle -> FIleWriter -> BufferedWriter
+        File file = new File(path);
+        FileWriter fw = null;
+        try {
+            // si no encuentra la ruta -> lo creo createNewFile() -> FileNotFoundException
+            fw = new FileWriter(file, true);
+            fw.write(125); // Devolver '}'
+            fw.write("123\n");
+            fw.write("Esto es otra línea");
+        } catch (IOException e) {
+            System.out.println("Error en la apertura del fichero");
+        } finally {
+            try {
+                fw.close();
+            } catch (IOException | NullPointerException e) {
+                System.out.println("Error en el cerrado fichero");
+            }
+        }
+
+    }
+
+    public void flujoEscrituraConBufferedWriter(String path){
+        File file = new File(path);
+        BufferedWriter bf = null;
+        try {
+            bf = new BufferedWriter(new FileWriter(file, true));
+            bf.write(123);
+            bf.newLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                bf.close();
+            } catch (IOException | NullPointerException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void flujoEscrituraConPrintWriter(String path){
+        File file = new File(path);
+
+        PrintWriter pw = null;
+
+        try {
+           //  pw = new PrintWriter(file);
+            pw = new PrintWriter(new FileWriter(file, true));
+            // pw.write("Hello, I am PrintWriter");
+            pw.println("Esto es una linea nueva en el fichero");
+            pw.println("Esto es otra linea nueva en el fichero");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                pw.close();
+            }catch (NullPointerException e){
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
