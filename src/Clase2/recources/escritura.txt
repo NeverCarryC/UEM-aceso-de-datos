@@ -1,0 +1,2 @@
+Hello, I am PrintWriterEsto es una linea nueva en el fichero
+Esto es otra linea nueva en el fichero
