@@ -1,5 +1,7 @@
 package Clase2;
 
+import Clase2.model.Usuario;
+
 import java.io.*;
 import java.util.Objects;
 
@@ -96,7 +98,8 @@ public class GestionFicheros {
         Clase2.GestionFicheros gestionFicheros = new GestionFicheros();
         // gestionFicheros.flujoEscrituraConFileWtriter("src/Clase2/recources/escritura.txt");
         // gestionFicheros.flujoEscrituraConBufferedWriter("src/Clase2/recources/escritura.txt");
-        gestionFicheros.flujoEscrituraConPrintWriter("src/Clase2/recources/escritura.txt");
+        // gestionFicheros.flujoEscrituraConPrintWriter("src/Clase2/recources/escritura.txt");
+        gestionFicheros.flujoEscrituraObjetos("src/Clase2/recources/escritura.obj");
     }
 
     public void flujoEscrituraConFileWtriter(String path){
@@ -159,5 +162,79 @@ public class GestionFicheros {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void flujoLecturaConFileReader(String path){
+        // File -> FileREader(caracter a catracter) -> BufferedReader(linea a linea)
+        File file = new File(path);
+        FileReader fileReader = null;
+
+        try {
+            fileReader = new FileReader(file);
+            // int numeroASCI = fileReader.read(); // numero ASCI del caracter leido
+            int numeroASCI = -1;
+            while((numeroASCI = fileReader.read()) >-1){
+                System.out.println((char)numeroASCI);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("El fichero no existe");
+        } catch (IOException e) {
+            System.out.println("Error en la lectura");
+        } finally {
+            try {
+                fileReader.close();
+            } catch (IOException | NullPointerException e) {
+                System.out.println("Error en el cerrado");
+            }
+        }
+    }
+
+    public void flujoLecturaConBufferedReader(String path){
+        // File -> FileREader(caracter a catracter) -> BufferedReader(linea a linea)
+        File file = new File(path);
+        BufferedReader bufferedReader = null;
+
+        try {
+            bufferedReader = new BufferedReader(new FileReader(file));
+            String linea = null;
+
+            while((linea = bufferedReader.readLine()) != null){
+                System.out.println(linea);
+            }
+
+
+        } catch (FileNotFoundException e) {
+            System.out.println("El fichero no existe");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                bufferedReader.close();
+            } catch (IOException | NullPointerException e) {
+                System.out.println("Error en el cerrado");
+            }
+        }
+    }
+
+    public void flujoEscrituraObjetos(String path){
+        // File -> FIleOutputStream -> ObjectOutputStream
+        File file = new File(path);
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(file));
+            oos.writeObject(new Usuario("Nico", "sd" ,"sd", "asd"));
+            oos.writeObject(new Usuario("Nico", "sd" ,"sd", "asd"));
+        } catch (IOException e) {
+            // System.out.println("Error en la escritura del fichero");
+            throw new RuntimeException(e);
+        }finally {
+            try {
+                oos.close();
+            } catch (IOException | NullPointerException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        Usuario usuario = new Usuario();
+        usuario.getApellido();
     }
 }
